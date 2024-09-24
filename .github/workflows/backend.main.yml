@@ -15,33 +15,39 @@ jobs:
       with:
           creds: ${{ secrets.AZURECREDENTIALS }}
 
-    # List files in backend directory before deployment
-    - name: List files in backend directory before deployment
+    # List files in the backend/api directory before deployment
+    - name: List files in backend/api directory before deployment
       run: |
-        ls -la backend/
+        ls -la backend/api/
 
-    # Build the backend .NET project
+    # Setup .NET Core SDK
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.0.x'  # Use the .NET version your project targets
+        dotnet-version: '6.0.x'  # Specify the appropriate .NET version for your project
 
+    # Restore dependencies
     - name: Restore dependencies
       run: |
-        cd backend
-        dotnet restore
+        dotnet restore backend/api/api.csproj  # Update to the correct .csproj file
 
+    # Build the backend project
     - name: Build the backend
       run: |
-        cd backend
-        dotnet build --configuration Release
+        dotnet build backend/api/api.csproj --configuration Release
+
+    # Publish the backend project
+    - name: Publish the backend
+      run: |
+        dotnet publish backend/api/api.csproj --configuration Release --output backend/api/publish
 
     # Deploy to Azure Function App
     - name: Deploy to Azure Function App
       uses: Azure/functions-action@v1
       with:
-        app-name: 'GetResumeCounterEthan'  # Replace with your Azure Function App name
-        package: 'backend'  # Adjust based on your .NET version and target framework
+        app-name: 'your-function-app-name'  # Replace with your Azure Function App name
+        package: 'backend/api/publish'  # Adjust based on your .NET version and target framework
+        publish-profile: ${{ secrets.FUNCTIONAPP_PUBLISH_PROFILE }}
 
     # Azure logout
     - name: Logout
