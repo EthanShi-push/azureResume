@@ -18,16 +18,17 @@ jobs:
         with:
           creds: ${{ secrets.AZURECREDENTIALS }}
 
-
-      - name: Retrieve publish profile for deployment
+      - name: 'Retrieve publish profile for deployment'
         id: publishProfileRetrieval
         run: |
-          publishProfiles=$(az webapp deployment list-publishing-profiles \
-            --name "GetResumeCounterEthan" \
-            --resource-group "getresumecounterethan4" \
-            --subscription "f7f083f1-fcc5-4dee-8439-41c4798dfad2" --xml)
+          $publishProfiles = az webapp deployment list-publishing-profiles `
+            --name "GetResumeCounterEthan" `
+            --resource-group "getresumecounterethan4" `
+            --subscription "f7f083f1-fcc5-4dee-8439-41c4798dfad2" `
+            --xml
           echo "::add-mask::$publishProfiles"
           echo "::set-output name=publishProfiles::$publishProfiles"
+        shell: pwsh
 
       - name: 'Run unit test'
         shell: pwsh
@@ -41,6 +42,3 @@ jobs:
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/api/output'
-
-
-
