@@ -26,8 +26,6 @@ jobs:
             --resource-group "getresumecounterethan4" `
             --subscription "f7f083f1-fcc5-4dee-8439-41c4798dfad2" `
             --xml
-          echo "::add-mask::$publishProfiles"
-          echo "::set-output name=publishProfiles::$publishProfiles"
         shell: pwsh
 
       - name: 'Run unit test'
