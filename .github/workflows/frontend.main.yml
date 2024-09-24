@@ -1,28 +1,33 @@
 name: deploy_frontend
 
 on:
-    push:
-        branches: [ main ]
-        paths:
-        - 'frontend/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: azure/login@v1.4.0
-      with:
+      # Checkout the code
+      - uses: actions/checkout@v3
+      
+      # Log in to Azure using service principal credentials
+      - name: Log in to Azure
+        uses: azure/login@v1.4.0
+        with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to blob storage
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-            az storage blob upload-batch --account-name azureresumefinal --auth-mode key -d '$web' -s frontend/
+      # Upload files to Azure Blob Storage
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload-batch --account-name azureresumefinal --auth-mode login -d '$web' -s frontend/
     
-  # Azure logout
-    - name: logout
-      run: |
-            az logout
-      if: always()
+      # Azure logout
+      - name: Logout of Azure
+        run: |
+          az logout
+        if: always()
