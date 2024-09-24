@@ -15,11 +15,15 @@ jobs:
       with:
           creds: ${{ secrets.AZURECREDENTIALS }}
 
+    - name: List files in frontend directory before upload
+      run: |
+        ls -la frontend/
+
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload-batch --account-name azureresumefinal --auth-mode login  -d '$web' -s frontend/
+            az storage blob upload-batch --account-name azureresumefinal --auth-mode key -d '$web' -s frontend/
     
 
   # Azure logout
