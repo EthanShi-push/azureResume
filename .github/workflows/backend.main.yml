@@ -5,11 +5,6 @@ on:
     paths:
       - 'backend/**'
 
-env:
-  AZURE_FUNCTIONAPP_NAME: 'GetResumeCounterEthan'   # set this to your function app name on Azure
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'backend/'          # set this to the path to your function app project, defaults to the repository root
-  DOTNET_VERSION: '6.0.x'                          # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
-
 jobs:
   build-and-deploy:
     runs-on: windows-latest
@@ -23,17 +18,17 @@ jobs:
         with:
           creds: ${{ secrets.AZURECREDENTIALS }}
 
-      - name: 'Setup DotNet ${{ env.DOTNET_VERSION }} Environment'
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - uses: azure/login@v1
 
-      - name: 'Resolve Project Dependencies Using Dotnet'
-        shell: pwsh
+      - name: Retrieve publish profile for deployment
+        id: publishProfileRetrieval
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/api'
-          dotnet build --configuration Release --output ./output
-          popd
+          publishProfiles=$(az webapp deployment list-publishing-profiles \
+            --name "GetResumeCounterEthan" \
+            --resource-group "getresumecounterethan4" \
+            --subscription "f7f083f1-fcc5-4dee-8439-41c4798dfad2" --xml)
+          echo "::add-mask::$publishProfiles"
+          echo "::set-output name=publishProfiles::$publishProfiles"
 
       - name: 'Run unit test'
         shell: pwsh
