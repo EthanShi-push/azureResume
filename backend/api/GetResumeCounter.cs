@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using System.Text;               // For ILogger
 
 
-// backendworkflow test comment
+// backendworkflow test comment2
 namespace Company.Function
 {
     public static class GetResumeCounter
