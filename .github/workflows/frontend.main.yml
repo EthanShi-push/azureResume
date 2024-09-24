@@ -19,7 +19,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload-batch --account-name azureresumefinal --auth-mode key -d '$web' -s frontend
+            az storage blob upload-batch --account-name azureresumefinal --auth-mode login  -d '$web' -s frontend/
     
 
   # Azure logout
