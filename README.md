@@ -1,6 +1,6 @@
 
 # Azure Resume Project
-
+This is my simple website practicing my experience with Azure service with example as Azure functions, blob storage, resource groups and Github Actions
 This project implements a full-stack web application designed to track the number of times a resume is viewed. 
 It features a backend API built with .NET and a frontend developed with HTML/CSS and JavaScript, all hosted on Microsoft Azure. 
 
@@ -30,29 +30,8 @@ It features a backend API built with .NET and a frontend developed with HTML/CSS
 - Git
 - Node.js (for frontend development)
   
-### Steps to Run Locally
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-repo/azure-resume.git
-   cd azure-resume
-   ```
-
-2. **Backend Setup**:
-   - Navigate to the backend folder and run the following commands:
-   ```bash
-   cd backend/api
-   dotnet restore
-   dotnet run
-   ```
-   - Ensure you have the appropriate Cosmos DB connection string in your `local.settings.json` file.
-
-3. **Frontend Setup**:
-   - Navigate to the frontend folder and open `index.html` in a browser or deploy it to a web server.
-   - For development, you can use a simple static server to serve the files.
-
-4. **Deploy to Azure**:
-   - Follow the instructions in the GitHub Actions workflows to deploy the frontend and backend to Azure.
-
+### Result project website url:
+https://azureresumefinal.z19.web.core.windows.net/#home
 ## Project Structure
 ```bash
 ├── backend
@@ -67,7 +46,4 @@ It features a backend API built with .NET and a frontend developed with HTML/CSS
 │   └── script.js
 └── .github
     └── workflows
-```
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
